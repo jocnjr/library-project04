@@ -1,0 +1,32 @@
+{
+  "name": "library-project04",
+  "version": "1.0.0",
+  "description": "Library Project Cohort 04",
+  "main": "app.js",
+  "dependencies": {
+    "dotenv": "^8.0.0",
+    "express": "^4.17.1",
+    "hbs": "^4.0.4",
+    "mongoose": "^5.6.3",
+    "morgan": "^1.9.1",
+    "path": "^0.12.7"
+  },
+  "devDependencies": {
+    "chalk": "^2.4.2"
+  },
+  "scripts": {
+    "start": "nodemon app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jocnjr/library-project04.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jocnjr/library-project04/issues"
+  },
+  "homepage": "https://github.com/jocnjr/library-project04#readme"
+}
