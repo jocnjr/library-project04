@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const Book = require('../models/book');
+const Author = require('../models/author');
 
 router.get('/', (req, res) => {
   res.render('index');
@@ -17,6 +18,7 @@ router.get('/books', (req, res) => {
 router.get('/book/:bookID', (req, res) => {
   const book = req.params.bookID;
   Book.findById(book)
+  .populate('author')
   .then(book => {
     console.log(book)
     res.render('book-details', book);
@@ -60,6 +62,34 @@ router.post('/books/edit/:bookID', (req, res, next) => {
   })
   .catch((error) => {
     console.log(error);
+  })
+});
+
+router.get('/authors/add', (req, res, next) => {
+  res.render("author-add")
+});
+
+router.post('/authors/add', (req, res, next) => {
+  const { name, lastName, nationality, birthday, pictureUrl } = req.body;
+  const newAuthor = new Author({ name, lastName, nationality, birthday, pictureUrl})
+  newAuthor.save()
+  .then((book) => {
+    res.redirect('/books')
+  })
+  .catch((error) => {
+    console.log(error)
+  })
+});
+
+router.post('/reviews/add/:bookID', (req, res, next) => {
+  const { user, comments } = req.body;
+
+  Book.update({ _id: req.params.bookID }, { $push: { reviews: { user, comments }}})
+  .then(book => {
+    res.redirect('/book/' + req.params.bookID)
+  })
+  .catch((error) => {
+    console.log(error)
   })
 });
 

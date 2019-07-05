@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const Book = require('./models/book');
 const Author = require('./models/author');
 
-const dbtitle = 'library-project';
+const dbtitle = 'library-project04';
 mongoose.connect(`mongodb://localhost/${dbtitle}`);
 Book.collection.drop();
 Author.collection.drop();

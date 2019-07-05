@@ -3,8 +3,10 @@
 <ul>
   {{#each books}}
     <p>
-        <a href="book/{{this._id}}">{{this.title}}</a> 
+        <a href="/book/{{this._id}}">{{this.title}}</a> 
         <a href="/books/edit/{{this._id}}" class="edit-button">EDIT</a>
     </p>    
   {{/each}}
+
 </ul>
+<a href="/books/add">Create new book</a>
