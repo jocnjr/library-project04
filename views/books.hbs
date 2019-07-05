@@ -2,6 +2,9 @@
 
 <ul>
   {{#each books}}
-    <li><a href="/book/{{_id}}">{{title}}</a></li>
+    <p>
+        <a href="book/{{this._id}}">{{this.title}}</a> 
+        <a href="/books/edit/{{this._id}}" class="edit-button">EDIT</a>
+    </p>    
   {{/each}}
 </ul>
