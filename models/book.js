@@ -4,9 +4,15 @@ const Schema   = mongoose.Schema;
 const bookSchema = new Schema({
   title: String,
   description: String,
-  // author: [ { type : Schema.Types.ObjectId, ref: 'Author' } ],
-  author: String,
-  rating: Number
+  author: [ { type : Schema.Types.ObjectId, ref: 'Author' } ],
+  // author: String,
+  rating: Number,
+  reviews: [ 
+    {
+      user: String,
+      comments: String
+    } 
+  ]
 }, {
   timestamps: true
 });
