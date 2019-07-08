@@ -4,15 +4,20 @@
   "description": "Library Project Cohort 04",
   "main": "app.js",
   "dependencies": {
+    "bcrypt": "^3.0.6",
+    "connect-ensure-login": "^0.1.1",
+    "connect-flash": "^0.1.1",
     "dotenv": "^8.0.0",
     "express": "^4.17.1",
+    "express-session": "^1.16.2",
     "hbs": "^4.0.4",
     "mongoose": "^5.6.3",
     "morgan": "^1.9.1",
+    "passport": "^0.4.0",
+    "passport-local": "^1.0.0",
     "path": "^0.12.7"
   },
-  "devDependencies": {
-  },
+  "devDependencies": {},
   "scripts": {
     "start": "nodemon app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
