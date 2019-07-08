@@ -10,6 +10,7 @@ const session = require("express-session");
 const bcrypt = require("bcrypt");
 const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
+const SlackStrategy = require('passport-slack').Strategy;
 const User = require("./models/user");
 const indexRoutes = require('./routes/index');
 const authRoutes = require('./routes/auth');
@@ -73,6 +74,32 @@ passport.use(new LocalStrategy({
     
     return next(null, user);
   });
+}));
+
+passport.use(new SlackStrategy({
+  clientID: process.env.SLACK_CLIENTID,
+  clientSecret: process.env.SLACK_SECRET
+}, (accessToken, refreshToken, profile, done) => {
+  User.findOne({ slackID: profile.id })
+  .then(user => {
+    if (user) {
+      return done(null, user);
+    }
+
+    const newUser = new User({
+      username: profile.displayName,
+      slackID: profile.id
+    });
+
+    newUser.save()
+    .then(user => {
+      done(null, newUser);
+    })
+  })
+  .catch(error => {
+    done(error);
+  })
+
 }));
 
 app.use(passport.initialize());

@@ -66,4 +66,11 @@ authRoutes.get("/logout", (req, res) => {
   res.redirect("/auth/login");
 });
 
+authRoutes.get("/slack", passport.authenticate("slack"));
+
+authRoutes.get("/slack/callback", passport.authenticate("slack", {
+  successRedirect: "/books",
+  failureRedirect: "/auth/login"
+}));
+
 module.exports = authRoutes;
