@@ -19,7 +19,14 @@
   {{else}}
   <a href="/auth/login">Login</a>
   {{/if}}
+
   {{{body}}}
+
+  {{#if GMAPS}}
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <script src="https://maps.googleapis.com/maps/api/js?key={{GMAPS}}"></script>
+  <script type="text/javascript" src="/js/script.js"></script>
+  {{/if}}
 </body>
 
 </html>

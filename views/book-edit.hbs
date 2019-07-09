@@ -1,15 +1,23 @@
+<h2>Book edit</h2>
 <form action="/books/edit/{{book._id}}" method="post">
   <label for="">Title:</label>
   <input type="text" name="title" value="{{book.title}}">
-
+<br><br>
   <label for="">Author:</label>
   <input type="text" name="author" value="{{book.author}}">
+<br><br>
 
   <label for="">Description:</label>
   <input type="text" name="description" value="{{book.description}}">
+<br><br>
 
   <label for="">Rate:</label>
   <input type="number" name="rating" value="{{book.rating}}">
+<br><br>
+  <label>Library</label>
+  <input type="text" name="latitude" placeholder="latitude" value="{{#if book.location}}{{book.location.coordinates.[1]}}{{/if}}">
+  <input type="text" name="longitude" placeholder="longitude" value="{{#if book.location}}{{book.location.coordinates.[0]}}{{/if}}">
 
+  <br><br>
   <button type="submit">EDIT</button>
 </form>

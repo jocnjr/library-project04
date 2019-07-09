@@ -2,7 +2,8 @@
 <span>Written by: {{book.author.0.name}} {{book.author.0.lastName}}</span>
 <p>Summary: {{book.description}}</p>
 <p>Rating: {{book.rating}}/10</p>
-
+  <div id="map"></div>
+  
 <p>Add a review</p>
 <form action="/reviews/add/{{book._id}}" method="post">
   <label for="">User:</label>
