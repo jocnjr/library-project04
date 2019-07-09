@@ -5,14 +5,14 @@ const bookSchema = new Schema({
   title: String,
   description: String,
   author: [ { type : Schema.Types.ObjectId, ref: 'Author' } ],
-  // author: String,
   rating: Number,
   reviews: [ 
     {
       user: String,
       comments: String
     } 
-  ]
+  ],
+  owner: Schema.Types.ObjectId
 }, {
   timestamps: true
 });

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,7 +8,18 @@
   <title>Library Project</title>
   <link rel="stylesheet" href="/css/style.css">
 </head>
+
 <body>
+  <a href="/books">Home</a> |
+  <a href="/books/add">Create new book</a> |
+  <a href="/auth/signup">Signup</a> |
+  {{#if user}}
+  <a href="/dashboard">Dashboard</a> |
+  <a href="/auth/logout">Logout</a>
+  {{else}}
+  <a href="/auth/login">Login</a>
+  {{/if}}
   {{{body}}}
 </body>
+
 </html>

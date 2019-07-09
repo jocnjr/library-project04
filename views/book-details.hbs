@@ -1,10 +1,10 @@
-<h1>{{title}}</h1>
-<span>Written by: {{author.0.name}} {{author.0.lastName}}</span>
-<p>Summary: {{description}}</p>
-<p>Rating: {{rating}}/10</p>
+<h1>{{book.title}}</h1>
+<span>Written by: {{book.author.0.name}} {{book.author.0.lastName}}</span>
+<p>Summary: {{book.description}}</p>
+<p>Rating: {{book.rating}}/10</p>
 
 <p>Add a review</p>
-<form action="/reviews/add/{{_id}}" method="post">
+<form action="/reviews/add/{{book._id}}" method="post">
   <label for="">User:</label>
   <input type="text" name="user">
 
@@ -15,7 +15,7 @@
 </form>
 <hr>
 <h2>Reviews</h2>
-{{#each reviews}}
+{{#each book.reviews}}
 <div class="review-item">
   <p>{{comments}}</p>
   <span>{{user}}</span>

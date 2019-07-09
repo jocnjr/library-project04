@@ -7,10 +7,12 @@ const path = require('path');
 const bodyParser = require('body-parser');
 const flash = require("connect-flash");
 const session = require("express-session");
+const MongoStore = require("connect-mongo")(session);
 const bcrypt = require("bcrypt");
 const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
 const SlackStrategy = require('passport-slack').Strategy;
+const GoogleStrategy = require("passport-google-oauth").OAuth2Strategy;
 const User = require("./models/user");
 const indexRoutes = require('./routes/index');
 const authRoutes = require('./routes/auth');
@@ -38,7 +40,11 @@ app.use(flash());
 app.use(session({
   secret: "our-passport-local-strategy-app",
   resave: true,
-  saveUninitialized: true
+  saveUninitialized: true,
+  store: new MongoStore({
+    mongooseConnection: mongoose.connection,
+    ttl: 24 * 60 * 60 // 1 day
+  })
 }));
 
 // passport config
@@ -98,6 +104,33 @@ passport.use(new SlackStrategy({
   })
   .catch(error => {
     done(error);
+  })
+
+}));
+
+passport.use(new GoogleStrategy({
+  clientID: process.env.GOOGLE_OAUTH_CLIENTID,
+  clientSecret: process.env.GOOGLE_OAUTH_SECRET,
+  callbackURL: "/auth/google/callback"
+}, (accessToken, refreshToken, profile, done) => {
+  console.log(profile)
+  User.findOne({ googleID: profile.id })
+  .then(user => {
+    if (user) {
+      return done(null, user);
+    }
+
+    const newUser = new User({
+      googleID: profile.id
+    });
+
+    newUser.save()
+    .then(user => {
+      done(null, newUser);
+    })
+  })
+  .catch(error => {
+    done(error)
   })
 
 }));

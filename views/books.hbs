@@ -4,13 +4,10 @@
   {{#each books}}
   <p>
     <a href="/book/{{this._id}}">{{this.title}}</a>
+    {{#if this.isOwner}}
     <a href="/books/edit/{{this._id}}" class="edit-button">EDIT</a>
+    {{/if}}
   </p>
   {{/each}}
 
 </ul>
-<a href="/books/add">Create new book</a>
-
-<p class="account-message">
-  <a href="/auth/logout">Logout</a>
-</p>

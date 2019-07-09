@@ -7,6 +7,7 @@
     "bcrypt": "^3.0.6",
     "connect-ensure-login": "^0.1.1",
     "connect-flash": "^0.1.1",
+    "connect-mongo": "^3.0.0",
     "dotenv": "^8.0.0",
     "express": "^4.17.1",
     "express-session": "^1.16.2",
@@ -14,6 +15,7 @@
     "mongoose": "^5.6.3",
     "morgan": "^1.9.1",
     "passport": "^0.4.0",
+    "passport-google-oauth": "^2.0.0",
     "passport-local": "^1.0.0",
     "passport-slack": "0.0.7",
     "path": "^0.12.7"
