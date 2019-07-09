@@ -15,7 +15,11 @@ router.get('/books', (req, res) => {
       books.forEach(book => {
         if (req.isAuthenticated() && book.owner && book.owner.equals(req.user._id)) book.isOwner = true;
       });
-      res.render('books', { books, user: req.user });
+      res.render('books', {
+        books,
+        user: req.user,
+        GMAPS: process.env.GMAPS
+      });
     })
     .catch(err => console.log(err));
 });
@@ -25,8 +29,11 @@ router.get('/book/:bookID', (req, res) => {
   Book.findById(book)
     .populate('author')
     .then(book => {
-      console.log(book)
-      res.render('book-details', {book, user: req.user});
+      res.render('book-details', {
+        book,
+        user: req.user,
+        GMAPS: process.env.GMAPS
+      });
     })
     .catch(err => console.log(err));
 });
@@ -41,9 +48,13 @@ router.get('/books/add', ensureLogin.ensureLoggedIn('/auth/login'), (req, res) =
 });
 
 router.post('/books/add', (req, res, next) => {
-  const { title, author, description, rating, owner } = req.body;
-  console.log(owner);
-  const newBook = new Book({ title, author, description, rating, owner });
+  const { title, author, description, rating, owner, latitude, longitude } = req.body;
+
+  const location = {
+    type: 'Point',
+    coordinates: [longitude, latitude]
+  };
+  const newBook = new Book({ title, author, description, rating, owner, location });
 
   newBook.save()
     .then((book) => {
@@ -65,9 +76,14 @@ router.get('/books/edit/:bookID', ensureLogin.ensureLoggedIn('/auth/login'), (re
 });
 
 router.post('/books/edit/:bookID', (req, res, next) => {
-  const { title, author, description, rating } = req.body;
+  const { title, author, description, rating, latitude, longitude } = req.body;
 
-  Book.update({ _id: req.params.bookID }, { $set: { title, author, description, rating } })
+  const location = {
+    type: 'Point',
+    coordinates: [longitude, latitude]
+  };
+
+  Book.update({ _id: req.params.bookID }, { $set: { title, author, description, rating, location } })
     .then((book) => {
       res.redirect('/books/edit/' + req.params.bookID);
     })
@@ -120,6 +136,24 @@ const isGuest = checkRoles('GUEST');
 
 router.get('/dashboard', isAdmin, (req, res) => {
   res.render('dashboard');
+});
+
+router.get('/api/books', (req, res, next) => {
+  Book.find()
+    .then(books => {
+      res.status(200).json({ books });
+    })
+    .catch(error => console.log(error))
+});
+
+
+router.get('/api/:id', (req, res, next) => {
+  let bookId = req.params.id;
+  Book.findOne({ _id: bookId })
+    .then(book => {
+      res.status(200).json({ book });
+
+    })
 });
 
 module.exports = router;
