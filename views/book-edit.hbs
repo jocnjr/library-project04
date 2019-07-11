@@ -17,7 +17,9 @@
   <label>Library</label>
   <input type="text" name="latitude" placeholder="latitude" value="{{#if book.location}}{{book.location.coordinates.[1]}}{{/if}}">
   <input type="text" name="longitude" placeholder="longitude" value="{{#if book.location}}{{book.location.coordinates.[0]}}{{/if}}">
-
+<br><br>
+  <label>Image</label>
+  <input type="file" name="image">
   <br><br>
   <button type="submit">EDIT</button>
 </form>

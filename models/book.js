@@ -13,7 +13,8 @@ const bookSchema = new Schema({
     }
   ],
   owner: Schema.Types.ObjectId,
-  location: { type: { type: String }, coordinates: [Number] }
+  location: { type: { type: String }, coordinates: [Number] },
+  imageUrl: String,
 }, {
     timestamps: true
   });

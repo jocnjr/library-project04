@@ -3,6 +3,7 @@ const router = express.Router();
 const Book = require('../models/book');
 const Author = require('../models/author');
 const ensureLogin = require('connect-ensure-login');
+const uploadCloud = require('../middlewares/cloudinary.js');
 
 router.get('/', (req, res) => {
   res.redirect('/books');
@@ -47,14 +48,17 @@ router.get('/books/add', ensureLogin.ensureLoggedIn('/auth/login'), (req, res) =
 
 });
 
-router.post('/books/add', (req, res, next) => {
+router.post('/books/add', uploadCloud.single('image'), (req, res, next) => {
   const { title, author, description, rating, owner, latitude, longitude } = req.body;
+
+  const imageUrl = req.file.url;
 
   const location = {
     type: 'Point',
     coordinates: [longitude, latitude]
   };
-  const newBook = new Book({ title, author, description, rating, owner, location });
+
+  const newBook = new Book({ title, author, description, rating, owner, location, imageUrl });
 
   newBook.save()
     .then((book) => {
@@ -75,15 +79,17 @@ router.get('/books/edit/:bookID', ensureLogin.ensureLoggedIn('/auth/login'), (re
     })
 });
 
-router.post('/books/edit/:bookID', (req, res, next) => {
+router.post('/books/edit/:bookID', uploadCloud.single('image'), (req, res, next) => {
   const { title, author, description, rating, latitude, longitude } = req.body;
+
+  const imageUrl = req.file.url;
 
   const location = {
     type: 'Point',
     coordinates: [longitude, latitude]
   };
 
-  Book.update({ _id: req.params.bookID }, { $set: { title, author, description, rating, location } })
+  Book.update({ _id: req.params.bookID }, { $set: { title, author, description, rating, location, imageUrl } })
     .then((book) => {
       res.redirect('/books/edit/' + req.params.bookID);
     })
