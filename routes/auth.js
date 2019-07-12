@@ -1,6 +1,7 @@
 const express = require("express");
 const authRoutes = express.Router();
 const passport = require('passport');
+const nodemailer = require('nodemailer');
 
 // User model
 const User = require("../models/user");
@@ -14,7 +15,7 @@ authRoutes.get("/signup", (req, res, next) => {
 });
 
 authRoutes.post("/signup", (req, res, next) => {
-  const { username, password, role } = req.body;
+  const { username, password, email, role } = req.body;
 
   if (username === "" || password === "") {
     res.render("auth/signup", { message: "Indicate username and password" });
@@ -34,6 +35,7 @@ authRoutes.post("/signup", (req, res, next) => {
       const newUser = new User({
         username,
         password: hashPass,
+        email,
         role
       });
 
@@ -41,7 +43,27 @@ authRoutes.post("/signup", (req, res, next) => {
         if (err) {
           res.render("auth/signup", { message: "Something went wrong" });
         } else {
-          res.redirect("/books");
+          const transport = nodemailer.createTransport({
+            host: "smtp.mailtrap.io",
+            port: 2525,
+            auth: {
+              user: "2380b9229d71b6",
+              pass: "7ec3778f943783"
+            }
+          });
+
+          transport.sendMail({
+            from: '"Library Project 👻" <ecd4198890-50f918@inbox.mailtrap.io>',
+            to: email,
+            subject: `Welcome, ${username}`,
+            text: `Welcome, text!`,
+            html: '<b>Awesome Message in html!</b>'
+          })
+            .then(info => {
+              console.log(info)
+              res.redirect("/books");
+            })
+            .catch(error => console.log(error))
         }
       });
     })

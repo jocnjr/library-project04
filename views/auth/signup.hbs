@@ -5,11 +5,14 @@
   <label for="username">Username</label>
   <input id="username" type="text" name="username" placeholder="JonSnow">
   <br><br>
+  <label for="username">Email</label>
+  <input id="username" type="text" name="email" placeholder="me@domain.com">
+  <br><br>
   <label for="password">Password</label>
   <input id="password" type="password" name="password" placeholder="Your password">
 
   {{#if message}}
-    <div class="error-message">{{ message }}</div>
+  <div class="error-message">{{ message }}</div>
   {{/if}}
   <br><br>
   <label for="role">Role</label>
